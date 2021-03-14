@@ -1,34 +1,12 @@
-const schedule = require('node-schedule');
-//TODO support minutes, hours and days
-//TODO use proper scheduler
-//TODO scheduled game name should be unique (maybe userId + Game Name)
+const schedule = require('node-schedule')
+require('dotenv').config()
 
-//cronString = second,minute,hour,dayOfMonth,month,dayOfWeek
-//(e.g.) 0,0,
-let generateCronPattern = (cronJson) => {
-
-  let rule = new schedule.RecurrenceRule();
-  rule.dayOfWeek = cronJson.dayOfWeek.slice() || null;
-  rule.hour = cronJson.hour || null;
-  rule.minute = cronJson.minute || null;
-  rule.second = 0;
-
-  return rule;
-}
-exports.scheduleGame = (game) => {
-/*  return setInterval(function(){
-    publishScheduledGame(game);
-  }, game.interval); */
-  let expiry = new Date(game.expiry);
-  console.log("Expiry date  : " +  expiry)
-  return schedule.scheduleJob(expiry, function(){
+function scheduleJob() {
+  console.log('scheduled')
+  return schedule.scheduleJob(process.env.JOB_CRON_PATTERN, function () {
     //schedule logic here
-    console.log(`Game ${game.id} Expired`);
-  });
-
+    console.log(`Executed at - ` + Date.now())
+  })
 }
 
-exports.cancelScheduledGame = (gameToCancel) => {
-  gameToCancel.scheduledGame.cancel();
-  console.log(`Game ${id} cancelled`);
-}
+scheduleJob()
