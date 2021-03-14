@@ -16,12 +16,10 @@ export async function saveNewWallet(newWallet) {
   return saved
 }
 
-//find all wallets
 export async function getWallet(address) {
   return WalletModel.find({ address }).exec()
 }
 
-//find all active games
 export async function getAllWallets() {
   return WalletModel.find({}).exec()
 }
